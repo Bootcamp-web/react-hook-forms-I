@@ -1,10 +1,8 @@
-
-  
 import React from 'react';
-//import { useIngredient } from '../lib/useIngredients';
+import { useIngredient } from '../lib/useIngredients';
 
 export const HaveIngredient = ({ ing }) => {
- // const { hasIngredient } = useIngredient();
+  const {ingredients  = useIngredient();
 
   if ((ing)) {
     return (
