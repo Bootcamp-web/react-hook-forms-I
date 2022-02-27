@@ -6,8 +6,8 @@
 1. [ Creamos los archivos `index.html`,  `index.tsx`y `App.tsx`](#schema3)
 1. [ Creamos los archivos `Item.tsx`,  `InputItem.tsx`y `ShoppingList.tsx` ](#schema4)
 1. [ Modificamos `App.tsx` para añadir los componentes nuevos. ](#schema5)
-1. [ Ejecutamos Typescript ](#schema2)
-1. [ Ejecutamos Typescript ](#schema2)
+1. [ Añadimos estilos al item, modificamos `Item.tsx`,](#schema6)
+1. [ Modificamos `InputItem.tsx`](#schema7)
 1. [ Ejecutamos Typescript ](#schema2)
 1. [ Ejecutamos Typescript ](#schema2)
 1. [ Ejecutamos Typescript ](#schema2)
@@ -150,6 +150,10 @@ export  const App =()=> {
 }
 
 ~~~
+<hr>
+
+<a name="schema6"></a>
+
 # 6 Añadimos estilos al item, modificamos `Item.tsx`,
 ~~~tsx
 import React from 'react';
@@ -164,6 +168,10 @@ export const Item =() => {
     return <ItemWrap>Item</ItemWrap>
 }
 ~~~
+<hr>
+
+<a name="schema7"></a>
+
 # 7 Modificamos `InputItem.tsx`
 
 ~~~tsx
@@ -293,4 +301,90 @@ export const Item = ({ item: { ingredient, quantity } }) => (
     {quantity}
   </ItemWrap>
 );
+~~~
+
+# 10 Creamos `HaveIngredient.tsx` y `Recipe.tsx`
+- `HaveIngredient.tsx` 
+~~~tsx
+import React from 'react';
+
+export const HaveIngredient = ({ ing }) => {
+
+  if ((ing)) {
+    return (
+      <p style={{ color: 'green' }}>
+        {' '}
+        I have
+        {' '}
+        {ing}
+      </p>
+    );
+  }
+  return (
+    <p style={{ color: 'red' }}>
+      {' '}
+      I dont have any
+      {' '}
+      {ing}
+    </p>
+  );
+};
+~~~
+- `Recipe.tsx`
+~~~tsx
+import React from 'react';
+import { HaveIngredient } from './HaveIngredient';
+import { FullRecipe } from './FullRecipe';
+
+const recipe = ['apples', 'flour', 'eggs', 'milk'];
+
+export const Recipe = () => (
+  <div>
+    <h2>Recipe</h2>
+    {recipe.map((e) => <HaveIngredient key={e} ing={e} />)}
+    <FullRecipe recipe={recipe} />
+  </div>
+);
+~~~
+
+
+# 10 Creando contexto `useIngredients.tsx` ,modificamos `App.tsx` y `Recipe.tsx`
+- `useIngredients.tsx`
+Contexto conjuto de datos que se van a compratir en toda la aplicación
+~~~tsx
+import React, { useContext, useState } from 'react';
+
+export const IngredientsContext = React.createContext({});
+
+export const useIngredient = ()=>{
+    const ctx = useContext(IngredientsContext)
+    return ctx
+}
+
+~~~
+- `App.tsx`
+~~~tsx
+import React from 'react';
+import { Recipe } from './components/Recipe';
+import { ShoppingList } from './components/ShoppingList'
+import { IngredientsContext } from './lib/useIngredients';
+
+export  const App =()=> {
+    return(
+
+        <div>
+            <h2>App Shopping list</h2>
+            <IngredientsContext.Provider value={{apples: 2}}>
+
+                <ShoppingList/>
+                <Recipe/>
+            </IngredientsContext.Provider>
+        </div>
+    )
+
+}
+~~~
+- `Recipe.tsx`
+~~~tsx
+
 ~~~
